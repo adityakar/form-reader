@@ -14,7 +14,6 @@ def lambda_handler(event, context):
     s3 = boto3.resource('s3', region_name=region)
     
     # check if object exists in bucket
-    
     try:
         s3.Object(bucket, document).load()
     except botocore.exceptions.ClientError as e:
@@ -23,8 +22,8 @@ def lambda_handler(event, context):
                 'statusCode': 404,
                 'body': 'Invalid file name in URL query param'
             }
+
     #process using S3 object
-        
     response = textractClient.analyze_document(Document={'S3Object': {'Bucket': bucket, 'Name': document}}, FeatureTypes=['FORMS'])
 
     #Get the text blocks
